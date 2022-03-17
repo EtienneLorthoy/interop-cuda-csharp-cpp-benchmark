@@ -53,7 +53,7 @@ namespace Runner
                 for (int i = 0; i < N; i++) a_test[i] = (double)i;
                 SomeCalculationsCsharpCPU(a_test, N, M);
 
-                Console.WriteLine("Start C# ");
+                Console.WriteLine("Start managed C# ");
                 {
                     double[] a_h = new double[SET_SIZE];
                     for (int i = 0; i < N; i++) a_h[i] = (double)i;
@@ -97,8 +97,6 @@ namespace Runner
 
                     stp.Start();
                     SomeCalculationsCPU(a_h, N, M);
-                    //var a_result_ptr = SomeCalculationsCPU(a_h, N, M);
-
                     stp.Stop();
 
                     Console.WriteLine("C (ms): " + stp.Elapsed.TotalMilliseconds);

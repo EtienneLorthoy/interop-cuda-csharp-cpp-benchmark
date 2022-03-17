@@ -27,7 +27,7 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 )
 {
 	Timer sw;
-	printf("	Starto GPU %d ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / CLOCKS_PER_SEC);
+	printf("	Start unmanaged CUDA %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
 	double* a_d;
 	size_t size = N * sizeof(double);
 	int cuerr = 0;
@@ -45,6 +45,6 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 
 	cudaFree(a_d);
 
-	printf("	Finito GPU %d ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / CLOCKS_PER_SEC);
+	printf("	Unmanaged CUDA stopped %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
 	return cuerr;
 }

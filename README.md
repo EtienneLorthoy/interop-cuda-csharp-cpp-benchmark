@@ -13,8 +13,8 @@ C# (ms): 461.4153
 Data 32 set:60.400001525878906 test:60.400001525878906 validated:True
 
 Start CUDA GPU
-        Starto GPU 0 ms
-        Finito GPU 300 ms
+        Start CUDA 0 ms
+        Finit CUDA 300 ms
 CUDA (ms): 300.4521
 Data 32 set:60.400000000000006 test:60.400001525878906 validated:True
 
