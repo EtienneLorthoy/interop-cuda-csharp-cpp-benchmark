@@ -53,6 +53,7 @@ This software uses the following open dependencies:
 
 - [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/)
 - [CUDA Toolkit 11.6](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64)
+- [gitingore.io](https://www.toptal.com/developers/gitignore)
 
 ## License
 
