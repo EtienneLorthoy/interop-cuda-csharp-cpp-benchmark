@@ -39,7 +39,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [V
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/EtienneLorthoy/etienne-consulting.git
+$ git clone https://github.com/EtienneLorthoy/interop-cuda-csharp-cpp-benchmark
 
 # Go into the repository
 $ ./InteropCudaCSharpBenchmark.sln
