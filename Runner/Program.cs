@@ -12,12 +12,11 @@ namespace Runner
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
         internal static extern IntPtr LoadLibrary(string lpszLib);
 
-        [DllImport("CudaRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern void SomeCalculationsGPU(double[] a_h, uint N, uint M, int cuBlockSize, int showErrors);
+        [DllImport("CudaRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void SomeCalculationsGPU(double[] a_h, uint N, uint M, int cuBlockSize);
 
-        [DllImport("CppRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.LPArray)]
-        public static extern void SomeCalculationsCPU(double[] a_h, uint N, uint M);
+        [DllImport("CppRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void SomeCalculationsCPU(double[] a_h, uint N, uint M);
 
         static double ReadsExecutionTime()
         {
@@ -77,7 +76,7 @@ namespace Runner
 
                     stp.Restart();
                     int cublocks = 256;
-                    SomeCalculationsGPU(a_h, N, M, cublocks, 1);
+                    SomeCalculationsGPU(a_h, N, M, cublocks);
                     stp.Stop();
 
                     Console.WriteLine("Total compute time for CUDA (ms): " + stp.Elapsed.TotalMilliseconds);

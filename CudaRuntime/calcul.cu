@@ -36,7 +36,7 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 	cudaMemcpy(a_d, a_h, size, cudaMemcpyHostToDevice);
 
 	int n_blocks = N / cuBlockSize + (N % cuBlockSize == 0 ? 0 : 1);
-	printf("	Allocating %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
+	printf("	Allocating GPU DRAM %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
 
 	Timer sw2;
 	printf("	Start Kernel CUDA %+" PRId64 " ms\n", sw2.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
@@ -47,7 +47,7 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 	Timer sw3;
 	cudaMemcpy(a_h, a_d, size, cudaMemcpyDeviceToHost);
 	cudaFree(a_d);
-	printf("	Releasing %+" PRId64 " ms\n", sw3.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
+	printf("	Releasing GPU DRAM %+" PRId64 " ms\n", sw3.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
 
 	printf("	Unmanaged CUDA stopped %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
 	return cuerr;
