@@ -5,7 +5,7 @@
 
 #include "Timer.cpp"
 
-extern "C" int __declspec(dllexport) __stdcall SomeCalculationsCPU
+extern "C" void __declspec(dllexport) __stdcall SomeCalculationsCPU
 (
 	double* a_h,
 	const unsigned int N,
@@ -17,7 +17,6 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsCPU
 	for (unsigned int i = 0; i < N; i++)
 		*(a_h + i) = *(a_h + i) * *(a_h + i) * 0.1 - *(a_h + i) - 10;
 	printf("	Unmanaged C stopped %+" PRId64 " ms\n", sw.get_elapsed_time().count() / CLOCKS_PER_SEC / 1000);
-	return 0;
 }
 
 void ResetCursor() {

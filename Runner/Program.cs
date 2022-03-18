@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace Runner
@@ -62,7 +61,7 @@ namespace Runner
                     SomeCalculationsCsharpCPU(a_h, N, M);
                     stp.Stop();
 
-                    Console.WriteLine("C# (ms): " + stp.Elapsed.TotalMilliseconds);
+                    Console.WriteLine("Total compute time for C# (ms): " + stp.Elapsed.TotalMilliseconds);
                     Console.Write("Data 32 set:" + a_h[32]);
                     Console.Write(" test:" + a_test[32]);
                     Console.WriteLine(" validated:" + VerifyEquality(a_h, a_test));
@@ -81,7 +80,7 @@ namespace Runner
                     SomeCalculationsGPU(a_h, N, M, cublocks, 1);
                     stp.Stop();
 
-                    Console.WriteLine("CUDA (ms): " + stp.Elapsed.TotalMilliseconds);
+                    Console.WriteLine("Total compute time for CUDA (ms): " + stp.Elapsed.TotalMilliseconds);
                     Console.Write("Data 32 set:" + a_h[32]);
                     Console.Write(" test:" + a_test[32]);
                     Console.WriteLine(" validated:" + VerifyEquality(a_h, a_test));
@@ -99,7 +98,7 @@ namespace Runner
                     SomeCalculationsCPU(a_h, N, M);
                     stp.Stop();
 
-                    Console.WriteLine("C (ms): " + stp.Elapsed.TotalMilliseconds);
+                    Console.WriteLine("Total compute time for C (ms): " + stp.Elapsed.TotalMilliseconds);
                     Console.Write("Data 32 set:" + a_h[32]);
                     Console.Write(" test:" + a_test[32]);
                     Console.WriteLine(" validated:" + VerifyEquality(a_h, a_test));
@@ -109,7 +108,6 @@ namespace Runner
 
                 GC.Collect(5, GCCollectionMode.Forced, true);
                 Console.WriteLine("Ctrl + C to exit...");
-                //Thread.Sleep(1000);
                 Console.SetCursorPosition(0, 0);
             }
         }

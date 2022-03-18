@@ -8,20 +8,24 @@
 At which point is it usefull to leverage CUDA cores to accelerate processing from a managed C# runtime ? This project try to answer this question:
 
 ```bash
-Start C#
-C# (ms): 461.4153
+Start managed C#
+Total compute time for C# (ms): 459.6394
 Data 32 set:60.400001525878906 test:60.400001525878906 validated:True
 
 Start CUDA GPU
-        Start CUDA 0 ms
-        Finit CUDA 300 ms
-CUDA (ms): 300.4521
+        Start unmanaged CUDA +0 ms
+        Allocating +148 ms
+        Start Kernel CUDA +0 ms
+        Kernel CUDA stopped +10 ms
+        Releasing +135 ms
+        Unmanaged CUDA stopped +295 ms
+Total compute time for CUDA (ms): 295.3208
 Data 32 set:60.400000000000006 test:60.400001525878906 validated:True
 
 Start C CPU
         Start unmanaged C +0 ms
-        Unmanaged C stopped +312 ms
-C (ms): 612.7176
+        Unmanaged C stopped +309 ms
+Total compute time for C (ms): 605.1846
 Data 32 set:60.400000000000006 test:60.400001525878906 validated:True
 
 Ctrl + C to exit...
