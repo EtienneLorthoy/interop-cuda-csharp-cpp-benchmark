@@ -10,16 +10,16 @@
 
 #include "Timer.cpp"
 
-__global__ void some_calculations(double* a)
+__global__ void some_calculations(float* a)
 {
 	unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	a[idx] = a[idx] * a[idx] * 0.1 - a[idx] - 10;
+	a[idx] = a[idx] * a[idx] * 0.1F - a[idx] - 10.0F;
 }
 
 
 // Cuda wrapper function
 extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
-	double* a_h,                               // pointer to input array
+	float* a_h,                               // pointer to input array
 	const unsigned int N,                     // input array size
 	const unsigned int M,                     // kernel M parameter
 	const int cuBlockSize = 512              // kernel block size (max 512)
@@ -27,8 +27,8 @@ extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 {
 	Timer sw;
 	printf("	Start unmanaged CUDA %+" PRId64 " ms\n", sw.get_elapsed_time() / CLOCKS_PER_SEC / 1000);
-	double* a_d;
-	size_t size = N * sizeof(double);
+	float* a_d;
+	size_t size = N * sizeof(float);
 	int cuerr = 0;
 	unsigned int timer = 0;
 

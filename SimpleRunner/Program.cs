@@ -13,12 +13,12 @@ namespace Runner
         internal static extern IntPtr LoadLibrary(string lpszLib);
 
         [DllImport("CudaRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void SomeCalculationsGPU(double[] a_h, uint N, uint M, int cuBlockSize);
+        internal static extern void SomeCalculationsGPU(float[] a_h, uint N, uint M, int cuBlockSize);
 
         [DllImport("CppRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void SomeCalculationsCPU(double[] a_h, uint N, uint M);
+        internal static extern void SomeCalculationsCPU(float[] a_h, uint N, uint M);
 
-        static double ReadsExecutionTime()
+        static float ReadsExecutionTime()
         {
             Console.WriteLine("Hello World!");
 
@@ -28,7 +28,7 @@ namespace Runner
                 IntPtr addr = GetProcesAddress(hdl, "sExecutionTime");
                 if (addr != IntPtr.Zero)
                 {
-                    double[] managedArray = new double[1];
+                    float[] managedArray = new float[1];
                     Marshal.Copy(addr, managedArray, 0, 1);
                     return managedArray[0];
                 }
@@ -36,25 +36,30 @@ namespace Runner
             return 0;
         }
 
-        private const int SET_SIZE = 2048 * 2048 * 8 * 4;
+        private const int SET_SIZE = 2048 * 2048 * 8 * 8;
 
         static void Main(string[] args)
         {
             while (true)
             {
-                double[] a_test = new double[SET_SIZE];
+                float[] a_test = new float[SET_SIZE];
                 const int N = SET_SIZE;
                 const int M = 8;
+                var sizeOfCurrent = sizeof(float);
                 var stp = new Stopwatch();
 
                 // Dummy data and second data set for validation
-                for (int i = 0; i < N; i++) a_test[i] = (double)i;
+                for (int i = 0; i < N; i++) a_test[i] = (float)i;
                 SomeCalculationsCsharpCPU(a_test, N, M);
+
+                var itemsNumberFormat = SET_SIZE.ToString("##,#");
+                Console.WriteLine("Array of " + itemsNumberFormat + " elements of size " + sizeOfCurrent + "bytes");
+                Console.WriteLine("");
 
                 Console.WriteLine("Start managed C# ");
                 {
-                    double[] a_h = new double[SET_SIZE];
-                    for (int i = 0; i < N; i++) a_h[i] = (double)i;
+                    float[] a_h = new float[SET_SIZE];
+                    for (int i = 0; i < N; i++) a_h[i] = (float)i;
 
                     stp.Restart();
                     SomeCalculationsCsharpCPU(a_h, N, M);
@@ -71,8 +76,8 @@ namespace Runner
 
                 Console.WriteLine("Start CUDA GPU ");
                 {
-                    double[] a_h = new double[SET_SIZE];
-                    for (int i = 0; i < N; i++) a_h[i] = (double)i;
+                    float[] a_h = new float[SET_SIZE];
+                    for (int i = 0; i < N; i++) a_h[i] = (float)i;
 
                     stp.Restart();
                     int cublocks = 256;
@@ -90,8 +95,8 @@ namespace Runner
 
                 Console.WriteLine("Start C CPU ");
                 {
-                    double[] a_h = new double[SET_SIZE];
-                    for (int i = 0; i < N; i++) a_h[i] = (double)i;
+                    float[] a_h = new float[SET_SIZE];
+                    for (int i = 0; i < N; i++) a_h[i] = (float)i;
 
                     stp.Start();
                     SomeCalculationsCPU(a_h, N, M);
@@ -111,18 +116,17 @@ namespace Runner
             }
         }
 
-        private static bool VerifyEquality(double[] f_a, double[] f_b)
+        private static bool VerifyEquality(float[] f_a, float[] f_b)
         {
             if (f_a.Length != f_b.Length) return false;
             for (int i = 0; i < f_a.Length; i++)
             {
-                // We lose precision during the default marshaling process
-                if (f_a[i] - f_b[i] > 1) return false;
+                if (f_a[i] != f_b[i]) return false;
             }
             return true;
         }
 
-        private static void SomeCalculationsCsharpCPU(double[] farr3, uint N, uint M)
+        private static void SomeCalculationsCsharpCPU(float[] farr3, uint N, uint M)
         {
             for (uint i = 0; i < N; i++)
                 farr3[i] = farr3[i] * farr3[i] * 0.1f - farr3[i] - 10f;

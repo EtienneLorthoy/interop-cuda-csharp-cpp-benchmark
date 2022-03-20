@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runner", "Runner\Runner.csproj", "{76B2C35F-EC32-449D-81FF-28C8BCC0C0DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRunner", "SimpleRunner\SimpleRunner.csproj", "{76B2C35F-EC32-449D-81FF-28C8BCC0C0DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{11FDFB0A-49AC-4EF2-91A2-331673F1E0EF} = {11FDFB0A-49AC-4EF2-91A2-331673F1E0EF}
 		{3B25D5DA-2FC5-49D9-883D-0DEBEA8131A7} = {3B25D5DA-2FC5-49D9-883D-0DEBEA8131A7}
