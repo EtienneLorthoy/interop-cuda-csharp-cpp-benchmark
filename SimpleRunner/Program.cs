@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace Runner
+namespace SimpleRunner
 {
     internal class Program
     {
@@ -13,28 +13,10 @@ namespace Runner
         internal static extern IntPtr LoadLibrary(string lpszLib);
 
         [DllImport("CudaRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void SomeCalculationsGPU(float[] a_h, uint N, uint M, int cuBlockSize);
+        internal static extern void SomeCalculationsGPU(float[] a_h, uint N, int cuBlockSize);
 
         [DllImport("CppRuntime.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void SomeCalculationsCPU(float[] a_h, uint N, uint M);
-
-        static float ReadsExecutionTime()
-        {
-            Console.WriteLine("Hello World!");
-
-            IntPtr hdl = LoadLibrary("CudaRuntime.dll");
-            if (hdl != IntPtr.Zero)
-            {
-                IntPtr addr = GetProcesAddress(hdl, "sExecutionTime");
-                if (addr != IntPtr.Zero)
-                {
-                    float[] managedArray = new float[1];
-                    Marshal.Copy(addr, managedArray, 0, 1);
-                    return managedArray[0];
-                }
-            }
-            return 0;
-        }
+        internal static extern void SomeCalculationsCPU(float[] a_h, uint N);
 
         private const int SET_SIZE = 2048 * 2048 * 8 * 8;
 
@@ -44,13 +26,12 @@ namespace Runner
             {
                 float[] a_test = new float[SET_SIZE];
                 const int N = SET_SIZE;
-                const int M = 8;
                 var sizeOfCurrent = sizeof(float);
                 var stp = new Stopwatch();
 
                 // Dummy data and second data set for validation
                 for (int i = 0; i < N; i++) a_test[i] = (float)i;
-                SomeCalculationsCsharpCPU(a_test, N, M);
+                CSharpRuntime.CSharpRuntime.SomeCalculationsCsharpCPU(a_test, N);
 
                 var itemsNumberFormat = SET_SIZE.ToString("##,#");
                 Console.WriteLine("Array of " + itemsNumberFormat + " elements of size " + sizeOfCurrent + "bytes");
@@ -62,7 +43,7 @@ namespace Runner
                     for (int i = 0; i < N; i++) a_h[i] = (float)i;
 
                     stp.Restart();
-                    SomeCalculationsCsharpCPU(a_h, N, M);
+                    CSharpRuntime.CSharpRuntime.SomeCalculationsCsharpCPU(a_h, N);
                     stp.Stop();
 
                     Console.WriteLine("Total compute time for C# (ms): " + stp.Elapsed.TotalMilliseconds);
@@ -81,7 +62,7 @@ namespace Runner
 
                     stp.Restart();
                     int cublocks = 256;
-                    SomeCalculationsGPU(a_h, N, M, cublocks);
+                    SomeCalculationsGPU(a_h, N, cublocks);
                     stp.Stop();
 
                     Console.WriteLine("Total compute time for CUDA (ms): " + stp.Elapsed.TotalMilliseconds);
@@ -99,7 +80,7 @@ namespace Runner
                     for (int i = 0; i < N; i++) a_h[i] = (float)i;
 
                     stp.Start();
-                    SomeCalculationsCPU(a_h, N, M);
+                    SomeCalculationsCPU(a_h, N);
                     stp.Stop();
 
                     Console.WriteLine("Total compute time for C (ms): " + stp.Elapsed.TotalMilliseconds);
@@ -124,12 +105,6 @@ namespace Runner
                 if (f_a[i] != f_b[i]) return false;
             }
             return true;
-        }
-
-        private static void SomeCalculationsCsharpCPU(float[] farr3, uint N, uint M)
-        {
-            for (uint i = 0; i < N; i++)
-                farr3[i] = farr3[i] * farr3[i] * 0.1f - farr3[i] - 10f;
         }
     }
 }

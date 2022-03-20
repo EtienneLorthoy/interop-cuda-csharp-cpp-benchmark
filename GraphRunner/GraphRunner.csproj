@@ -19,4 +19,8 @@
     <ProjectReference Include="..\CSharpRuntime\CSharpRuntime.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ScottPlot" Version="4.1.36" />
+  </ItemGroup>
+
 </Project>

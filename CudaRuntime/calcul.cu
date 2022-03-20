@@ -20,8 +20,7 @@ __global__ void some_calculations(float* a)
 // Cuda wrapper function
 extern "C" int __declspec(dllexport) __stdcall SomeCalculationsGPU(
 	float* a_h,                               // pointer to input array
-	const unsigned int N,                     // input array size
-	const unsigned int M,                     // kernel M parameter
+	const unsigned long N,                     // input array size
 	const int cuBlockSize = 512              // kernel block size (max 512)
 )
 {

@@ -32,6 +32,10 @@ Ctrl + C to exit...
 ```
 
 <p align="center">
+  <img src="./timings.png" />
+</p>
+
+<p align="center">
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
